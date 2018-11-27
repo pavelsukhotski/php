@@ -23,6 +23,3 @@ foreach ($array as &$paragraph) {
 }
 var_dump($array);
 
-
-
-        

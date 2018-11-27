@@ -2,11 +2,19 @@
 $text = file_get_contents('text_windows1251.txt');//Считываем полный текст файла в переменную $text
 $textConverted = mb_convert_encoding($text, 'utf-8', 'Windows-1251');//сконвертировали в Unicode
 $array = explode("\r\n", $textConverted);//разбивка на абзацы
+
+$alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+//$alphabetArray = explode('`', $alphabet);
+//$alphabetArray = mb_split('`', $alphabet);
+$alphabetArray = mbStringToArray($alphabet, 0);
+$alphabetArrayLength = count($alphabetArray);
+
 foreach ($array as &$paragraph) {
-	$symbolCount = mb_strstr($paragraph, 'utf-8');//количество символов в каждом абзаце
+	$paragraph = trim($paragraph);
+        $symbolCount = mb_strstr($paragraph, 'utf-8');//количество символов в каждом абзаце
 	$wordCount = unicode_str_word_count($paragraph);//количество слов в каждом абзаце
-	$sentence = explode('. ', $paragraph);//разбиваем каждый абзац на предложения по признаку точка-пробел
-	$sentenceCount = count($sentence);//количество предложений в каждом абзаце
+	$sentenceArray = explode('. ', $paragraph);//разбиваем каждый абзац на предложения по признаку точка-пробел
+	$sentenceCount = count($sentenceArray);//количество предложений в каждом абзаце
 	//$paragraph = substr_replace($paragraph, '<p>', 0, 0);//добавление тега в начало строки каждого абзаца
 	//$paragraph = substr_replace($paragraph, '</p>', strlen($paragraph), 4);//добавление тега в конец строки каждого абзаца
 	//foreach ($paragraph as &$word) {//разбивка предложений на слова по пробелу между ними
@@ -14,22 +22,38 @@ foreach ($array as &$paragraph) {
         //$wordLength = count($word);
         //for ($i = 0; $i <= $wordLength; $i++) {
         foreach ($word as &$value) {
-        	$value = str_ireplace(["HTML", "PHP", "ASP", "ASP\.NET", "Java"], ['<span style="color: blue">'.color_text("html", $value).'</span>', '<span style="color: blue">'.color_text("php", $value).'</span>', '<span style="color: blue">'.color_text("asp", $value).'</span>', '<span style="color: blue">'.color_text("asp\.net", $value).'</span>', '<span style="color: blue">'.color_text("java", $value).'</span>'], $value);
+        	$value = str_ireplace(["HTML", "PHP", "ASP.NET", "ASP", "Java"], ['<span style="color: blue">'.color_text("html", $value).'</span>', '<span style="color: blue">'.color_text("php", $value).'</span>', '<span style="color: blue">'.color_text("asp", $value).'</span>', '<span style="color: blue">'.color_text("asp.net", $value).'</span>', '<span style="color: blue">'.color_text("java", $value).'</span>'], $value);
     	}
         $paragraph = implode(' ', $word);//собираем из массива слов абзац
-        $sentence = explode('. ', $paragraph);//разбиваем каждый абзац на предложения по признаку точка-пробел
-foreach ($sentence as &$charArray) {
+        $sentenceArray = explode('. ', $paragraph);//разбиваем каждый абзац на предложения по признаку точка-пробел
+
+foreach ($sentenceArray as &$sentence) {
 //$firstLetter = mb_strpos($sentence, '>') + 1;
-	$charArray = mbStringToArray($sentence, 0);//преобразуем каждое предложение в массив символов
+	
+    /*
+     * !!!!!!!!!!!!!! 
+     * $sentence - это массив, плохое название, переименован в $sentenceArray, сразу понятно.
+     * А вот $charArray - это строка из данного массива хотя по названию массив, переименован в $sentence
+     */
+        $charArray = mbStringToArray($sentence, 0);//преобразуем каждое предложение в массив символов
 	if (in_array($charArray[0], $alphabetArray)) {
     	$charArray[0] = "<b>$charArray[0]</b>";//если первый символ буква, то заменяем ее на жирную эту же букву
     }
 elseif ($charArray[0] != '<') {//если первый символ не буква и не начало тэга, то ищем первую букву
     				$charCounter = 0;
     				for ($charK = 1; $charK < count($charArray) && $charCounter == 0; $charK++)
+                                
+                                
+                                /*
+                                 * $alphabetArray здесь не определен, определяется гораздо ниже,переносим в самое начало
+                                 */
     				if (in_array($charArray[$charK], $alphabetArray)) {
-    					$char[$charK] = "<b>$char[$charK]</b>";
-    					$charCounter++;
+    					
+                                    /*
+                                     * была использована переменная $char вместо $charArray
+                                     */
+                                    $charArray[$charK] = "<b>$charArray[$charK]</b>";
+    				    $charCounter++;
    				}
     			}
 
@@ -48,7 +72,12 @@ elseif ($charArray[0] != '<') {//если первый символ не бук�
     }
 }
 $sentence = implode($charArray);
-$paragraph = implode('. ', $sentence);
+
+/*
+ * $sentence - это не массив, а предложение
+ */
+
+$paragraph = implode('. ', $sentenceArray);
 
  //   foreach ($sentence as &$wordSent) {
  //   	$wordSent = explode(' ', $sentence);//массив слов в каждом предложении абзаца
@@ -76,19 +105,15 @@ $paragraph = implode('. ', $sentence);
 
 
 }
-$alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя';
-//$alphabetArray = explode('`', $alphabet);
-//$alphabetArray = mb_split('`', $alphabet);
-$alphabetArray = mbStringToArray($alphabet, 0);
-$alphabetArrayLength = count($alphabetArray);
 
 function mbStringToArray ($string, $startPos) { //преобразуем строку в массив символов
+    //var_dump($string);
     $strlen = mb_strlen($string); 
     while ($strlen) { 
         $array[] = mb_substr($string,$startPos,1,"UTF-8"); 
         $string = mb_substr($string,1,$strlen,"UTF-8"); 
         $strlen = mb_strlen($string); 
-    } 
+    }
     return $array; 
 } 
 
@@ -113,6 +138,9 @@ function unicode_str_word_count($string) {//функция подсчета сл
 function color_text($str, $value) {
         	$strLen = strlen($str);
         	$valueLen = mb_strlen($value, 'utf-8');
+                /*
+                 * при проверке стоит = вместо ==
+                 */
         	if ($strLen == $valueLen) {
         		$text = stristr($value, $str);
         	}
@@ -134,6 +162,6 @@ function color_text($str, $value) {
 //var_dump($sentenceCount);
 //var_dump($word);
 $textNew = implode("\r\n", $array);
-echo $textNew;
+echo nl2br($textNew);
 //echo $array;
 //Выполняем задание (при разбивке по абзацам учтите, что в Windows1251 абзацы разделяются через "\r\n")
