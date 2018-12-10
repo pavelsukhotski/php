@@ -90,6 +90,7 @@ function update($request) {
         $data['user'] = mysqli_real_escape_string($mysqli, $data['user']);
         $data['message'] = mysqli_real_escape_string($mysqli, $data['message']);
         $sql = "UPDATE guestbook SET user = '{$data['user']}', message = '{$data['message']}' WHERE id = '{$request['id']}'";
+    
         if ($result = mysqli_query($mysqli, $sql)) {
             //Данные добавлены, перезапрос 1 страницы, где они отобразятся
             header("Location: http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?model={$request['model']}&page=1");
@@ -98,14 +99,22 @@ function update($request) {
             $data['error'] = 'Не удалось добавить данные';
         }
     } else {
-
-        //данные по умолчанию для формы редактирования 
-        $userText = "SELECT user FROM guestbook WHERE id = '{$request['id']}'";
-        $userResult = mysqli_query($mysqli, $userText);
-        $messageText = "SELECT message FROM guestbook WHERE id = '{$request['id']}'";
-        $messageResult = mysqli_query($mysqli, $messageText);
-        $data['user'] = mysqli_fetch_all($userResult, MYSQLI_ASSOC);
-        $data['message'] = mysqli_fetch_all($messageResult, MYSQLI_ASSOC);
+if (!$mysqli = connect()) {
+            $data['error'] = 'Не удалось подключиться к базе данных';
+            return $data;
+        }
+        //данные для формы редактирования 
+ 
+        $sql = "SELECT id, user, message, messagetime FROM guestbook WHERE id = '{$data['id']}'";
+        if (!$mysqli = connect()) {
+            $data['error'] = 'Не удалось подключиться к базе данных';
+            return $data;
+        }
+        if (!($result = mysqli_query($mysqli, $sql))) {
+        $data['error'] = 'Ошибка запроса количества сообщений';
+        return $data;
+    }
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     return $data;
 }
