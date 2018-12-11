@@ -10,8 +10,8 @@ function create($request) {
         //Данные получены в POST, их нужно тщательно проверить,
         //здесь в примере они берутся без особой проверки (только на пустоту)
         //нужно написать и вызвать здесь функцию проверки полученных даныых
-        $data['user'] = $_POST['user'];
-        $data['message'] = $_POST['message'];
+        $data['user'] = trim(htmlspecialchars($_POST['user'], ENT_QUOTES));
+        $data['message'] = trim(htmlspecialchars($_POST['message'], ENT_QUOTES));
         if (empty($data['user']) || empty($data['message'])) {
             $data['error'] = 'Все поля должны быть заполнены';
             return $data;
@@ -68,17 +68,12 @@ function read($request) {
 }
 
 function update($request) {
-//Аналогично create, только для формы нужно данные взять из базы   
-    //SELECT id, user, m_text, m_time FROM message WHERE id = ?;
-    //   $data['user'] = "SELECT user FROM guestbook WHERE id = {$request['id']}";
-    //   $data['message'] = "SELECT message FROM guestbook WHERE id = {$request['id']}";
-
     if ($_POST) {
         //Данные получены в POST, их нужно тщательно проверить,
         //здесь в примере они берутся без особой проверки (только на пустоту)
         //нужно написать и вызвать здесь функцию проверки полученных даныых
-        $data['user'] = $_POST['user'];
-        $data['message'] = $_POST['message'];
+        $data['user'] = trim(htmlspecialchars($_POST['user'], ENT_QUOTES));
+        $data['message'] = trim(htmlspecialchars($_POST['message'], ENT_QUOTES));
         if (empty($data['user']) || empty($data['message'])) {
             $data['error'] = 'Все поля должны быть заполнены';
             return $data;
@@ -90,37 +85,45 @@ function update($request) {
         $data['user'] = mysqli_real_escape_string($mysqli, $data['user']);
         $data['message'] = mysqli_real_escape_string($mysqli, $data['message']);
         $sql = "UPDATE guestbook SET user = '{$data['user']}', message = '{$data['message']}' WHERE id = '{$request['id']}'";
-    
+
         if ($result = mysqli_query($mysqli, $sql)) {
-            //Данные добавлены, перезапрос 1 страницы, где они отобразятся
-            header("Location: http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?model={$request['model']}&page=1");
+            //Данные изменены, перезапрос текущей страницы, где они были
+            header("Location: http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?model={$request['model']}&page={$request['page']}");
             exit();
         } else {
             $data['error'] = 'Не удалось добавить данные';
         }
     } else {
-if (!$mysqli = connect()) {
-            $data['error'] = 'Не удалось подключиться к базе данных';
-            return $data;
-        }
-        //данные для формы редактирования 
- 
-        $sql = "SELECT id, user, message, messagetime FROM guestbook WHERE id = '{$data['id']}'";
         if (!$mysqli = connect()) {
             $data['error'] = 'Не удалось подключиться к базе данных';
             return $data;
         }
+        //данные для формы редактирования 
+
+        $sql = "SELECT id, user, message, messagetime FROM guestbook WHERE id = '{$request['id']}'";
+
         if (!($result = mysqli_query($mysqli, $sql))) {
-        $data['error'] = 'Ошибка запроса количества сообщений';
-        return $data;
-    }
-        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $data['error'] = 'Ошибка запроса количества сообщений';
+            return $data;
+        }
+        $data = mysqli_fetch_assoc($result);
     }
     return $data;
 }
 
 function delete($request) {
-    
+    if (!$mysqli = connect()) {
+        $data['error'] = 'Не удалось подключиться к базе данных';
+        return $data;
+    }
+    $sql = "DELETE FROM guestbook WHERE id = '{$request['id']}'";
+    if ($result = mysqli_query($mysqli, $sql)) {
+        //Данные удалены, перезапрос текущей страницы, где они были
+        header("Location: http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?model={$request['model']}&page={$request['page']}");
+        exit();
+    } else {
+        $data['error'] = 'Не удалось добавить данные';
+    }
 }
 
 function connect() {
@@ -129,4 +132,24 @@ function connect() {
     if (!mysqli_set_charset($mysqli, 'utf8'))
         return false;
     return $mysqli;
+}
+
+function pagination($request) {
+    if (!$mysqli = connect()) {
+        $data['error'] = 'Не удалось подключиться к базе данных';
+        return $data;
+    }
+    $sql = 'SELECT COUNT(*) FROM guestbook';
+    if (!($result = mysqli_query($mysqli, $sql))) {
+        $data['error'] = 'Ошибка запроса количества сообщений';
+        return $data;
+    }
+    $row = mysqli_fetch_row($result);
+    $itemsCount = $row[0];
+    mysqli_free_result($result);
+    $pagesCount = ceil($itemsCount / ITEMSPERPAGE);
+    if ($request['page'] > $pagesCount) {
+        $data['error'] = 'Запрошенная Вами страница не найдена';
+    }
+    return $pagesCount;
 }
