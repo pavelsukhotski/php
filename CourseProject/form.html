@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Clayton request form</title>
+        <meta charset="UTF-8">
+ 
+    </head>
+    <body>
+        <div>
+            <h1>
+                Clayton steam generators
+            </h1>
+
+            <form name="form" method="post" action="form.php">
+                <fieldset>
+                    <legend>Required parameters</legend>
+                    <span>Steam capacity </span>
+                    <input type="number" name="capacity" placeholder="150 - 20000" min="150" max="20000">
+                    <span> kg/h</span>
+
+                    <br>
+                    <span>Working steam pressure </span>
+                    <input type="number" name="pressure" placeholder="5 - 60" min="5" max="60">
+                    <span> barg</span>
+
+                </fieldset>
+                <fieldset>
+                    <legend>Select options</legend>
+                    <select name="options[]" size="10" multiple>
+                        <optgroup label="Steam generator">
+                            <option value="1">Economizer</option>
+                            <option value="2">Low NOx</option>
+                            <option value="3">#item</option>
+                        </optgroup>
+                        <optgroup label="Burner">
+                            <option value="4">Modulating</option>
+                            <option value="5">Low NOx</option>
+                            <option value="6">#item</option>
+                        </optgroup>
+                        <optgroup label="Controls and instrumentation">
+                            <option value="7">Modbus</option>
+                            <option value="8">#item</option>
+                            <option value="9">#item</option>
+                        </optgroup>
+                        <optgroup label="Feed pump">
+                            <option value="10">Pump inlet valve</option>
+                            <option value="11">Oil level switch</option>
+                            <option value="12">Inlet snubber</option>
+                        </optgroup>
+                    </select>
+                    <br>
+                    <em>Select multiple holding Ctrl</em>
+                </fieldset>
+                <input type="submit" value="Go!">
+                <input type="reset" value="Reset">
+            </form>
+
+        </div>
+    </body>
+</html>
