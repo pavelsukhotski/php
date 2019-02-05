@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 30 2019 г., 00:13
+-- Время создания: Фев 02 2019 г., 14:35
 -- Версия сервера: 5.6.41
 -- Версия PHP: 7.2.10
 
@@ -744,12 +744,12 @@ CREATE TABLE `stgencost` (
 --
 
 INSERT INTO `stgencost` (`workingpress_idworkingpress`, `modellist_idmodellist`, `stgencost`) VALUES
-(6, 6, -6),
-(6, 5, -5),
-(6, 4, -4),
-(6, 3, -3),
-(6, 2, -2),
 (6, 1, -1),
+(6, 2, -1),
+(6, 3, -1),
+(6, 4, -1),
+(6, 5, -1),
+(6, 6, -1),
 (1, 1, 20010),
 (1, 2, 22334),
 (1, 3, 25246),
@@ -952,9 +952,9 @@ ALTER TABLE `optionsinblock`
 --
 ALTER TABLE `stgencost`
   ADD PRIMARY KEY (`workingpress_idworkingpress`,`modellist_idmodellist`),
-  ADD UNIQUE KEY `stgencost_UNIQUE` (`stgencost`),
   ADD KEY `fk_workingpress_has_modellist_modellist2_idx` (`modellist_idmodellist`),
-  ADD KEY `fk_workingpress_has_modellist_workingpress2_idx` (`workingpress_idworkingpress`);
+  ADD KEY `fk_workingpress_has_modellist_workingpress2_idx` (`workingpress_idworkingpress`),
+  ADD KEY `stgencost_UNIQUE` (`stgencost`) USING BTREE;
 
 --
 -- Индексы таблицы `workingpress`
