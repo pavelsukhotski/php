@@ -7,6 +7,7 @@ class RequestForm extends \yii\base\Model
 {
     public $capacity;
     public $pressure;
+    public $usermodelname;
 
     public function rules()
     {
@@ -19,4 +20,18 @@ class RequestForm extends \yii\base\Model
 
         ];
     }
+    
+    public function usermodel() {
+        if (isset($_POST['capacity'])) {
+            //$usermodelname = SELECT idmodellist, modelname, MIN(modelcapacity) FROM modellist WHERE `modelcapacity` >= $_POST['capacity'];
+            $usermodelname = (new \yii\db\Query())
+                            ->select(['idmodellist', 'modelname', 'MIN(modelcapacity)'])
+                            ->from('modellist')
+                            ->where('>=', 'modelcapacity', '$_POST[`capacity`]')
+                            ->limit(1);
+        }
+        echo $this->usermodelname;
+        
+    }
+   
 }

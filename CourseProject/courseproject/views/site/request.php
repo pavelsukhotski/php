@@ -25,22 +25,31 @@ use yii\widgets\ActiveForm;
 <div>
     <?php
     
-    $optionblock = Yii::$app->db->createCommand('SELECT idoptionblock, optionblockname FROM optionblock')
+    $optionblock = Yii::$app->db->createCommand('SELECT idoptionblock, optionblockname FROM optionblock ORDER BY idoptionblock')
             ->queryAll();
-    var_dump($optionblock);
-    foreach ($optionblock as $value1) {
-        
-        $i=1;
-        $optionslist = Yii::$app->db->createCommand('SELECT optionsinblockname FROM optionsinblock WHERE optionsinblock.idoptionblock = <?=$i?>')
+    
+    
+    $optionslist = Yii::$app->db->createCommand('SELECT optionsinblockname FROM optionsinblock WHERE optionsinblock.idoptionblock = 1')
              ->queryColumn();
-        var_dump($optionslist);
-     /*   foreach ($optionslist as $value2) {
-     /*       echo $form->field($model, 'optionslist[]')->checkboxList(['a' => 'Item A', 'b' => 'Item B', 'c' => 'Item C']);
-        }
+     var_dump($optionblock);
+     var_dump($optionslist);
+     
+    
+    /*
+    foreach ($optionblock as $value1) {
+        echo $value1;
+
+        $optionslist = Yii::$app->db->createCommand('SELECT optionsinblockname FROM optionsinblock WHERE `optionsinblock.idoptionblock` = $value1')
+             ->queryColumn();
+         
+        foreach ($optionslist as $value2) {
+            
         echo $value2;
-        echo '<br>';
+            
+        }
+       
         }*/
-    }
+    
     
     ?>
 </div>
