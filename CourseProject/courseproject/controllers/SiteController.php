@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\RequestForm;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 class SiteController extends Controller
 {
@@ -134,12 +136,29 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             // данные в $model удачно проверены
             
-            // делаем что-то полезное с $model ...
+            //Запись введенных данных в сессию с ключом requestform
+            Yii::$app->session->set('requestform', [
+                'idmodellist' => $model->idmodellist,
+                'idworkingpress' => $model->idworkingpress,
+                'idoptionblock' => $model->idoptionblock,
+                'idoptionsinblock' => $model->idoptionsinblock,
+            ]);
+            
  
-            return $this->render('request-confirm', ['model' => $model]);
+            return $this->render('request-confirm', ['model' => $model]);//редирект для обработки введенных данных
         } else {
             // либо страница отображается первый раз, либо есть ошибка в данных
             return $this->render('request', ['model' => $model]);
         }
+    }
+    
+    public function actionShow()
+    {
+        //Нужно сделать модель для выборки данных по данным в сессии
+        //здесь просто вызывается view для вывода данных сессии
+        $session = Yii::$app->session->get('requestform');
+        return $this->render('request-confirm', 
+                $session
+        );        
     }
 }
