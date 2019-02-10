@@ -14,13 +14,15 @@ use app\models\Optionsinblock;
     <h3>Required parameters:</h3>
     <br>
 </div>
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(['id' => 'requestform']); ?>
 
-    <?= $form->field($model, 'capacity')->textInput()->hint('150 - 20000 kg/h')->label('Capacity, kg/h'); ?>
-
-    <?= $form->field($model, 'pressure')->textInput()->hint('5 - 60 bar(g)')->label('Pressure, bar(g)'); ?>
     
-    <?= $form->field($model, 'optionsinblockname[]')->checkboxList(\app\models\Optionsinblock::find()->select(['optionsinblockname', 'idoptionsinblock'])->indexBy('optionsinblockname')->column()) ?>
+    <?= $form->field($model, 'idmodellist')->listBox(Modellist::find()->select(["CONCAT(`modelname`, ' (', `modelcapacity`, ' kg/h)') AS str", 'idmodellist'])->indexBy('idmodellist')->column()) ?>
+
+    <?= $form->field($model, 'idworkingpress')->listBox(Workingpress::find()->select(['workingpress', 'idworkingpress'])->indexBy('idworkingpress')->column()) ?>
+
+    
+    <?= $form->field($model, 'idoptionsinblock')->checkboxList(\app\models\Optionsinblock::find()->select(['optionsinblockname', 'idoptionsinblock'])->indexBy('idoptionsinblock')->column()) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Ready', ['class' => 'btn btn-primary']) ?>

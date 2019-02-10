@@ -137,15 +137,11 @@ class SiteController extends Controller
             // данные в $model удачно проверены
             
             //Запись введенных данных в сессию с ключом requestform
-            Yii::$app->session->set('requestform', [
-                'idmodellist' => $model->idmodellist,
-                'idworkingpress' => $model->idworkingpress,
-                'idoptionblock' => $model->idoptionblock,
-                'idoptionsinblock' => $model->idoptionsinblock,
-            ]);
-            
+            Yii::$app->session->set('requestform', ['idmodellist' => $model->idmodellist, 'idworkingpress' => $model->idworkingpress]);
+            // 'idoptionblock' => $model->idoptionblock,
+               // 'idoptionsinblock' => $model->idoptionsinblock,
  
-            return $this->render('request-confirm', ['model' => $model]);//редирект для обработки введенных данных
+            return $this->render('show', ['model' => $model]);//редирект для обработки введенных данных
         } else {
             // либо страница отображается первый раз, либо есть ошибка в данных
             return $this->render('request', ['model' => $model]);
@@ -157,7 +153,7 @@ class SiteController extends Controller
         //Нужно сделать модель для выборки данных по данным в сессии
         //здесь просто вызывается view для вывода данных сессии
         $session = Yii::$app->session->get('requestform');
-        return $this->render('request-confirm', 
+        return $this->render('show', 
                 $session
         );        
     }
