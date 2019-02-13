@@ -16,8 +16,8 @@ use yii\base\Model;
  *
  * @author ys
  */
-class Test extends Model {
-
+class Test extends Model
+{
     public $idmodellist;
     public $idworkingpress;
     public $idoptionsinblock;
@@ -25,10 +25,10 @@ class Test extends Model {
     /**
      * @return array the validation rules.
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-                [['idmodellist', 'idworkingpress', 'idoptionsinblock'], 'required'],
+            [['idmodellist', 'idworkingpress', 'idoptionsinblock'], 'required'],
         ];
     }
-
 }

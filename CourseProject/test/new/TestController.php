@@ -20,29 +20,32 @@ use yii\filters\VerbFilter;
  * @author ys
  */
 class TestController extends Controller {
-
-    public function actionIndex() {
+    
+    public function actionIndex()
+    {
         $model = new Test();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             //Запись введенных данных в сессию с ключом test
-            Yii::$app->session->set('test', ['idmodellist' => $model->idmodellist,
-                'idworkingpress' => $model->idworkingpress,
-                'idoptionsinblock' => $model->idoptionsinblock]);
+            Yii::$app->session->set('test', ['idmodellist' => $model->idmodellist, 
+                                            'idworkingpress' => $model->idworkingpress,
+                                            'idoptionsinblock' => $model->idoptionsinblock]);
 
-            return $this->redirect(['test/show']); //редирект для обработки введенных данных
+            return $this->redirect(['test/show']);//редирект для обработки введенных данных
         }
 
         return $this->render('index', [
-                    'model' => $model,
+            'model' => $model,
         ]);
     }
-
-    public function actionShow() {
+    
+    public function actionShow()
+    {
         //Нужно сделать модель для выборки данных по данным в сессии
         //здесь просто вызывается view для вывода данных сессии
         $session = Yii::$app->session->get('test');
-        return $this->render('show', $session
-        );
+        return $this->render('show', 
+                $session
+        );        
     }
-
+    
 }

@@ -137,7 +137,9 @@ class SiteController extends Controller
             // данные в $model удачно проверены
             
             //Запись введенных данных в сессию с ключом requestform
-            Yii::$app->session->set('requestform', ['idmodellist' => $model->idmodellist, 'idworkingpress' => $model->idworkingpress]);
+            Yii::$app->session->set('requestform', ['idmodellist' => $model->idmodellist,
+                                                    'idworkingpress' => $model->idworkingpress,
+                                                    'idoptionsinblock' => $model->idoptionsinblock]);
             // 'idoptionblock' => $model->idoptionblock,
                // 'idoptionsinblock' => $model->idoptionsinblock,
  

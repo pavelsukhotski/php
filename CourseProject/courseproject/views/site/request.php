@@ -6,7 +6,7 @@ use app\models\Workingpress;
 use app\models\Optionblock;
 use app\models\Optionsinblock;
 ?>
-<div>
+<div class="site-contact">
             <h2>
                 Clayton steam generators
             </h2>
@@ -14,6 +14,9 @@ use app\models\Optionsinblock;
     <h3>Required parameters:</h3>
     <br>
 </div>
+
+<div class="row">
+        <div class="col-lg-5">
 <?php $form = ActiveForm::begin(['id' => 'requestform']); ?>
 
     
@@ -22,45 +25,18 @@ use app\models\Optionsinblock;
     <?= $form->field($model, 'idworkingpress')->listBox(Workingpress::find()->select(['workingpress', 'idworkingpress'])->indexBy('idworkingpress')->column()) ?>
 
     
-    <?= $form->field($model, 'idoptionsinblock')->checkboxList(\app\models\Optionsinblock::find()->select(['optionsinblockname', 'idoptionsinblock'])->indexBy('idoptionsinblock')->column()) ?>
+    <?= $form->field($model, 'idoptionsinblock')->checkboxList(Optionsinblock::find()->select(['optionsinblockname', 'idoptionsinblock'])->indexBy('idoptionsinblock')->column()) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Ready', ['class' => 'btn btn-primary']) ?>
     </div>
 
+            
 <!-- начало ошибок -->
 
-<div>
-    <?php
-    /*
-    $optionblock = Yii::$app->db->createCommand('SELECT idoptionblock, optionblockname FROM optionblock ORDER BY idoptionblock')
-            ->queryAll();
-    
-    
-    $optionslist = Yii::$app->db->createCommand('SELECT optionsinblockname FROM optionsinblock WHERE optionsinblock.idoptionblock = 1')
-             ->queryColumn();
-     var_dump($optionblock);
-     var_dump($optionslist);
-     
-     
-    
-    /*
-    foreach ($optionblock as $value1) {
-        echo $value1;
 
-        $optionslist = Yii::$app->db->createCommand('SELECT optionsinblockname FROM optionsinblock WHERE `optionsinblock.idoptionblock` = $value1')
-             ->queryColumn();
-         
-        foreach ($optionslist as $value2) {
-            
-        echo $value2;
-            
-        }
-       
-        }*/
-    
-    
-    ?>
-</div>
 
 <?php ActiveForm::end(); ?>
+
+</div>
+    </div>

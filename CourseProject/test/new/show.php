@@ -8,7 +8,7 @@
 
 use yii\helpers\Html;
 
-$this->title = 'RequestForm';
+$this->title = 'Test';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
@@ -21,8 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
         idworkingpress <?= $idworkingpress ?>
     </p>
     <p>
-        idoptionsibblock <?php
-        var_dump($idoptionsinblock) ?>
+        idoptionsinblock <?php var_dump($idoptionsinblock) ?>
     </p>
 </div>
-    <span>-------------------------------------------</span>
