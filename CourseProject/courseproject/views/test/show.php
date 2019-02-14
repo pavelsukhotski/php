@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $pdostmt->execute();
     $pdostmt->bindColumn(1, $stgencost);
     $row = $pdostmt->fetch(PDO::FETCH_BOUND);
-    echo '<table><tr><td>Steam generator ' . $modelname . ' (' . $modelcapacity . ' kg/h, ' . $press . ' bar): </td><td>' . $stgencost . ' </td><td>  Euro</td></tr>';
+    echo '<table><tr><td>Steam generator ' . $modelname . ' (' . $modelcapacity . ' kg/h, ' . $press . ' bar): </td><td>' . $stgencost . ' </td><td>  &nbsp;Euro</td></tr>';
     echo '<tr><td>OPTIONS:</td></tr>';
 
 
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $row = $pdostmt4->fetch(PDO::FETCH_BOUND);
 
         if ($optcost > 0) {
-            echo '<tr><td>' . $optname . ':</td><td>' . $optcost . '</td><td>Euro</td></tr>';
+            echo '<tr><td>' . $optname . ':</td><td>' . $optcost . '</td><td>&nbsp;Euro</td></tr>';
         } else {
             $optcost = 0;
             echo '<tr><td>' . $optname . ':</td><td>Not Available</td></tr>';
@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $sum = $sum + $optcost;
     }
     $total = $stgencost + $sum;
-    echo '<tr><td><br><b>TOTAL COST:</b></td><td>' . $total . '</td><td>Euro</td></tr></table>';
+    echo '<tr><td><br><b>TOTAL COST:</b></td><td><br><b>' . $total . '</b></td><td><br><b>&nbsp;Euro</b></td></tr></table>';
     ?>
 
 </div>

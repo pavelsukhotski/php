@@ -39,7 +39,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             
-            ['label' => 'REQUEST', 'url' => ['/test/index']],
+            ['label' => 'CLAYTON SELECTION TOOL', 'url' => ['/test/index']],
             
         ],
     ]);
