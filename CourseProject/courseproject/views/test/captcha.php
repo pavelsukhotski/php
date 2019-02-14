@@ -34,5 +34,5 @@ $step=round($image_x/(strlen($captcha)+2));//шаг символов
     imagettftext($im, $ss, $sa, $sx, $sy, $sc, $sf, $letter);
   }
   $w = 'w.png';
-  imagepng($im, $w);//неплохо бы и шума немного добавить из случайных линий и т.п.
+  imagepng($im);//неплохо бы и шума немного добавить из случайных линий и т.п.
   imagedestroy($im);

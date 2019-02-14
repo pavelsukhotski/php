@@ -31,12 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'idoptionsinblock')->checkboxList(Optionsinblock::find()->select(['optionsinblockname', 'idoptionsinblock'])->indexBy('idoptionsinblock')->orderBy('optionsinblock.idoptionblock', 'optionsinblock.idoptionsinblock')->column()) ?>
 
-            <div class="form-group">
+        <!-- CAPTCHA
+        
+        <div class="form-group">
                 <img src="../views/test/captcha.php" /><br/>
                 <form action="../views/test/index.php" method="post">
   <input type="text" name="captcha"/>
   
 </form>
+        -->
 
                 <?= Html::submitButton('Confirm', ['class' => 'btn btn-primary', 'name' => 'test-button']) ?>
             </div>

@@ -71,3 +71,14 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 </div>
+
+<!-- IMAGE ON PAGE
+<div>
+    <?php
+    header('Content-Type: image/gif');
+     $pic = '../views/test/pics/pic.gif';
+     $image = imagecreatefromgif($pic);
+     imagegif($image);
+    
+    ?>
+</div>
