@@ -30,11 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'idworkingpress')->listBox(Workingpress::find()->select(['CONCAT (workingpress.workingpress, " bar") AS pressure', 'idworkingpress'])->indexBy('idworkingpress')->column()) ?>
 
             <?= $form->field($model, 'idoptionsinblock')->checkboxList(Optionsinblock::find()->select(['optionsinblockname', 'idoptionsinblock'])->indexBy('idoptionsinblock')->orderBy('optionsinblock.idoptionblock', 'optionsinblock.idoptionsinblock')->column()) ?>
-            
-            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+
+                    <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
                     ]) ?>
-
         <!-- CAPTCHA
         
         <div class="form-group">

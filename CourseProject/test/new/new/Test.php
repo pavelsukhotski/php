@@ -28,7 +28,7 @@ class Test extends Model {
      */
     public function rules() {
         return [
-                [['idmodellist', 'idworkingpress', 'idoptionsinblock'], 'required'],
+            [['idmodellist', 'idworkingpress', 'idoptionsinblock'], 'required'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
